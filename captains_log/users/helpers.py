@@ -7,7 +7,9 @@ def send_password_reset_email(user):
     """Helper method that accepts a User object and sends a password reset link to that user's email"""
     token = user.get_reset_token()
     msg = Message(
-        "Password Reset Request", sender="noreply@demo.com", recipients=[user.email]
+        "Password Reset Request",
+        sender="alon.pilosoph@gmail.com",
+        recipients=[user.email],
     )
     msg.html = render_template(
         "reset_email.html",
