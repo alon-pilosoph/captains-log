@@ -9,10 +9,13 @@
     {% from "includes/formhelpers.html" import render_field %}
     <div class="tile tile-wide">
         {% include 'includes/messages.html' %}
-        <h1 class="display-6 text-center mb-0">Unnamed Planet</h1>
-        <h2 class="text-center mb-3">Discovery {{ discovery_number }} of {{ things_to_discover }}</h2>
+        <h1 class="display-6 text-center mb-0">{{ planet.name }}</h1>
+        <h2 class="text-center mb-3">Discovery {{ discovery_number }} of {{ planet.things_to_discover }}</h2>
         <div class="progress mb-2">
-            <div class="progress-bar" role="progressbar" style="width: {{ discovery_number / things_to_discover * 100 }}%" aria-valuenow="{{ discovery_number }}" aria-valuemin="0" aria-valuemax="{{ things_to_discover }}"></div>
+            <div class="progress-bar" role="progressbar"
+                style="width: {{ discovery_number / planet.things_to_discover * 100 }}%"
+                aria-valuenow="{{ discovery_number }}" aria-valuemin="0" aria-valuemax="{{ planet.things_to_discover }}">
+            </div>
         </div>
         <div class="p-5 bg-dark text-light rounded-3">
             <p>{{ prompt }}</p>

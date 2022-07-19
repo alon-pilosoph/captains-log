@@ -108,7 +108,7 @@ def reset_request():
 
 
 @users.route("/reset_password/<token>", methods=["GET", "POST"])
-def reset_token(token):
+def reset_password(token):
     """View to handle password reset.
     Token is passed as route variable and verified in view."""
 
@@ -134,4 +134,4 @@ def reset_token(token):
         return redirect(url_for("users.login"))
 
     # If page was reached by GET method, render page with reset form
-    return render_template("reset_token.html", form=form)
+    return render_template("reset_password.html", form=form)

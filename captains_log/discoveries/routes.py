@@ -108,7 +108,7 @@ def explore():
             return render_template(
                 "discovery.html",
                 discovery_number=current_discovery.number,
-                things_to_discover=current_planet.things_to_discover,
+                planet=current_planet,
                 prompt=f"{current_discovery.circumstances}: {current_discovery.thing_discovered}.",
                 from_page="discoveries.explore",
                 form=form,
@@ -179,7 +179,7 @@ def edit_discovery(discovery_id):
     return render_template(
         "discovery.html",
         discovery_number=discovery.number,
-        things_to_discover=discovery.planet.things_to_discover,
+        planet=discovery.planet,
         prompt=f"{discovery.circumstances}: {discovery.thing_discovered}.",
         from_page="discoveries.archive",
         form=form,
