@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% set active_page = from_page %}
+
+{% block title %}
+    Name Planet
+{% endblock title %}
+
+{% block main %}
+    {% from "includes/formhelpers.html" import render_field %}
+    <div class="tile tile-narrow">
+        {% include 'includes/messages.html' %}
+        <div class="p-5 bg-dark text-light rounded-3">
+            <h1 class="display-6 text-center">Name Planet</h1>
+            <p class="text-center">Give the planet a number or a name.</p>
+            <form method="POST" action="" novalidate>
+                {{ form.csrf_token }}
+                <div class="form-group mb-3">
+                    {{ render_field(form.name) }}
+                </div>
+                <div class="text-center mb-2">
+                    {{ form.submit(class="btn btn-secondary") }}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock main %}

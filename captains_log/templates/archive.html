@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% set active_page = "discoveries.archive" %}
+
+{% block title %}
+    Archive
+{% endblock title %}
+
+{% block main %}
+    <div class="tile tile-wide">
+        {% include 'includes/messages.html' %}
+        <h1 class="display-6 text-center">Archive</h1>
+        <div class="accordion accordion-flush" id="archive-accordion">
+            {% for planet in planets|reverse %}
+                {% if planet.discoveries[0].description != None %}
+                    <div class="accordion-item" style="border-color: #839496">
+                        <h2 class="accordion-header" id="heading{{ planet.id }}">
+                            <button class="accordion-button{% if planet.id != request.args.get('show')|int %} collapsed{% endif %}" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse{{ planet.id }}" aria-expanded="true"
+                                aria-controls="collapse{{ planet.id }}">
+                                <span class="fs-5">{{ planet.name }}</span>
+                            </button>
+                        </h2>
+                        <div id="collapse{{ planet.id }}" class="accordion-collapse collapse{% if planet.id == request.args.get('show')|int %} show{% endif %}"
+                            aria-labelledby="heading{{ planet.id }}">
+                            <div class="accordion-body">
+                                {% for discovery in planet.discoveries %}
+                                    {% if discovery.description != None %}
+                                        <div class="pb-3">
+                                            <div class="archive-discovery-heading">
+                                                <h3 class="my-0 me-2 fs-5">Discovery {{ discovery.number }}</h3>
+                                                <small><a class="link-secondary"
+                                                        href="{{ url_for('discoveries.edit_discovery', discovery_id=discovery.id) }}">Edit</a></small>
+                                            </div>
+                                            <p class="text-light m-0">{{discovery.description}}</p>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if planet.id != current_planet_id %}
+                                    <a class="btn btn-outline-secondary me-1" href="{{ url_for('discoveries.rename_planet', planet_id=planet.id) }}">Rename Planet</a>
+                                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{planet.id}}">Delete Planet</button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="deleteModal{{planet.id}}" tabindex="-1" aria-labelledby="deleteModal{{planet.id}}Label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModal{{planet.id}}Label">Delete Archived Planet?</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <form method="POST" action="{{ url_for('discoveries.delete_planet', planet_id=planet.id) }}">
+                                                <input type="submit" class="btn btn-danger" value="Delete">
+                                            </form>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock main %}

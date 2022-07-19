@@ -1,0 +1,17 @@
+.tile {
+    width: 95%;
+    margin: auto;
+}
+
+.tile-narrow {
+    max-width: 400px;
+}
+
+.tile-wide {
+    max-width: 600px;
+}
+
+.archive-discovery-heading {
+    display: flex;
+    align-items: baseline;
+}

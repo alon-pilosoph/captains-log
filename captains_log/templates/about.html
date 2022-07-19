@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% set active_page = "main.about" %}
+
+{% block title %}
+    About
+{% endblock title %}
+
+{% block main %}
+    <h1 class="display-6 text-center">About</h1>
+    <div class="tile tile-wide">
+        {% include 'includes/messages.html' %}
+        <div class="p-5 bg-dark text-light rounded-3">
+            <p class="fs-4 mb-0">The Game</p>
+            <p><a href="https://noroadhome.itch.io/alone-among-the-stars">Alone Among the Stars</a> is a solo RPG
+                (role-playing game) by Takuma Okada. In this game, you play a lone explorer, hopping from planet to planet
+                while recording your discoveries in a journal. It is a game of creative writing and solitary
+                self-reflection. TEST</p>
+            <p>Each planet houses 1 to 6 things to discover, represented in the game by a six-sided die. The prompt for each
+                discovery is randomized by a standard deck of cards. The explorer keeps rolling dice and drawing cards until
+                they are ready to go back home.</p>
+            <p>This web app is intended to function as your captain's log during your travels. You can log your descoveries
+                and review them in the archive.</p>
+            <p>Please consider supporting Takuma Okada on <a href="https://itch.io/">itch.io</a>.</p>
+            <p class="fs-4 mb-0">The App</p>
+            <p>This simple web app is an exercise in Flask. It utilizes Bootstrap, relies on Jinja templates and uses Flask
+                extensions such as Flask-SQLAlchemy, Flask-WTF, Flask-Login and Flask-Mail. The app connects to a
+                PostgresSQL database and deployed on Heroku.</p>
+        </div>
+    </div>
+{% endblock main %}

@@ -1,0 +1,50 @@
+{% set navbar_left = [
+    ('main.index', 'Home'),
+    ('main.about', 'About'),
+    ('main.music', 'Music'),
+    ('discoveries.explore', 'Explore'),
+    ('discoveries.archive', 'Archive')
+] %}
+
+{% set navbar_right = [
+    ('users.logout', 'Logout')
+] %}
+
+{% set active_page = active_page|default('main.index') %}
+
+<nav class="navbar shadow fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand p-0 me-1" href="{{ url_for('main.index') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-asterisk"
+                viewBox="0 0 16 16">
+                <path fill="white"
+                    d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z" />
+            </svg>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
+            aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav me-auto">
+                {% for route, caption in navbar_left %}
+                <li class="nav-item">
+                    <a class="nav-link{% if route == active_page %} active{% endif %}" href="{{ url_for(route) }}">
+                        {{ caption }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="navbar-nav ms-auto me-2">
+                {% for route, caption in navbar_right %}
+                <li class="nav-item">
+                    <a class="nav-link{% if route == active_page %} active{% endif %}" href="{{ url_for(route) }}">
+                        {{ caption }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+</nav>
