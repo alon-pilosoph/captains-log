@@ -34,14 +34,6 @@ class User(db.Model, UserMixin):
         lazy=True,
         cascade="all, delete",
     )
-    # Discoveries associated with user
-    discoveries = db.relationship(
-        "Discovery",
-        foreign_keys="[Discovery.user_id]",
-        back_populates="explorer",
-        lazy=True,
-        cascade="all, delete",
-    )
 
     def get_reset_token(self):
         """Method that returns a timed token associated with user to send in reset email"""
@@ -104,10 +96,6 @@ class Discovery(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"), nullable=False)
     # Relationships
-    # User associated with discovery
-    explorer = db.relationship(
-        "User", foreign_keys=[user_id], back_populates="discoveries", lazy=True
-    )
     # Planet associated with discovery
     planet = db.relationship("Planet", back_populates="discoveries", lazy=True)
 

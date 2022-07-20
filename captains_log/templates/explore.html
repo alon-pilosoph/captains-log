@@ -13,7 +13,7 @@
             <p class="text-center">There are {{ things_to_discover }} things to discover on this planet.</p>
             <div class="text-center mt-4">
                 <a class="btn btn-secondary me-1" href="{{ url_for('discoveries.explore') }}">Find Another</a>
-                <form method="POST" action="" style="display:inline-block">
+                <form class="d-inline-block" method="POST" action="">
                     <input type="hidden" name="things_to_discover" value="{{ things_to_discover }}">
                     <input type="submit" class="btn btn-secondary ms-1" value="Start">
                 </form>

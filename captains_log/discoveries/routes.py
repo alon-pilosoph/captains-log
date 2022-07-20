@@ -143,7 +143,15 @@ def archive():
     """View to render archive page in order to present archived discoveries"""
 
     # Query db for all the planets associated with current user
-    planets = Planet.query.filter_by(user_id=current_user.id).all()
+    planets = (
+        db.session.query(Planet)
+        .join(Discovery)
+        .filter(
+            Planet.user_id == current_user.id,
+            Discovery.number == 1,
+            Discovery.description != None,
+        )
+    )
     # Pass planets to template
     return render_template(
         "archive.html",
