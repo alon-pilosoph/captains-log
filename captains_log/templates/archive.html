@@ -7,9 +7,10 @@
 
 {% block main %}
     <div class="tile tile-wide">
-        {% include 'includes/messages.html' %}
+        
         <h1 class="display-6 text-center">Archive</h1>
-        <div class="accordion accordion-flush" id="archive-accordion">
+        {% include 'includes/messages.html' %}
+        <div class="accordion" id="archive-accordion">
             {% for planet in planets|reverse %}
                 <div id="archive-accordion-item" class="accordion-item">
                     <h2 class="accordion-header" id="heading{{ planet.id }}">

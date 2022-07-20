@@ -17,22 +17,32 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     # Columns that represent state of user
-    current_planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"), default=None)
+    current_planet_id = db.Column(
+        db.Integer,
+        db.ForeignKey("planet.id", use_alter=True, name="fk_current_planet_id"),
+        default=None,
+    )
     current_discovery_id = db.Column(
-        db.Integer, db.ForeignKey("discovery.id"), default=None
+        db.Integer,
+        db.ForeignKey("discovery.id", use_alter=True, name="fk_current_discovery_id"),
+        default=None,
     )
     # Relationships
-    current_planet = db.relationship("Planet", foreign_keys=[current_planet_id])
+    current_planet = db.relationship(
+        "Planet",
+        foreign_keys=[current_planet_id],
+    )
     current_discovery = db.relationship(
-        "Discovery", foreign_keys=[current_discovery_id], cascade="all, delete"
+        "Discovery",
+        foreign_keys=[current_discovery_id],
     )
     # Planets associated with user
     planets = db.relationship(
         "Planet",
         foreign_keys="[Planet.user_id]",
         back_populates="explorer",
-        lazy=True,
         cascade="all, delete",
+        lazy=True,
     )
 
     def get_reset_token(self):
@@ -74,11 +84,18 @@ class Planet(db.Model):
     # Relationships
     # User associated with planet
     explorer = db.relationship(
-        "User", foreign_keys=[user_id], back_populates="planets", lazy=True
+        "User",
+        foreign_keys=[user_id],
+        back_populates="planets",
+        lazy=True,
     )
     # Discoveries associated with planet
     discoveries = db.relationship(
-        "Discovery", back_populates="planet", lazy=True, cascade="all, delete"
+        "Discovery",
+        foreign_keys="[Discovery.planet_id]",
+        back_populates="planet",
+        cascade="all, delete",
+        lazy=True,
     )
 
     def __repr__(self):
@@ -93,11 +110,15 @@ class Discovery(db.Model):
     circumstances = db.Column(db.String(40), nullable=False)
     thing_discovered = db.Column(db.String(70), nullable=False)
     description = db.Column(db.Text)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"), nullable=False)
     # Relationships
     # Planet associated with discovery
-    planet = db.relationship("Planet", back_populates="discoveries", lazy=True)
+    planet = db.relationship(
+        "Planet",
+        foreign_keys=[planet_id],
+        back_populates="discoveries",
+        lazy=True,
+    )
 
     def __repr__(self):
         return f"<Discovery id={self.id}, planet_id={self.planet_id}>"

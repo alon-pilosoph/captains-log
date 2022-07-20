@@ -10,11 +10,13 @@
         {% include 'includes/messages.html' %}
         <div class="p-5 bg-dark text-light rounded-3">
             <h1 class="display-6 mb-3">Welcome, Space Explorer</h1>
-            <p class="mb-1">Use this web app to log your <a href="https://noroadhome.itch.io/alone-among-the-stars">Alone Among
+            <p class="mb-1">Use this web app to log your <a href="https://noroadhome.itch.io/alone-among-the-stars"
+                    class="link-success">Alone Among
                     the Stars</a> adventures.
             </p>
             <p>
-                <a href="{{ url_for('users.register') }}">Register</a> or <a href="{{ url_for('users.login') }}">log in</a> to get started.
+                <a href="{{ url_for('users.register') }}" class="link-success">Register</a> or <a
+                    href="{{ url_for('users.login') }}" class="link-success">log in</a> to get started.
             </p>
         </div>
     </div>

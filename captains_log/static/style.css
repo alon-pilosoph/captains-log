@@ -22,7 +22,7 @@
 
 #archive-accordion-button:not(.collapsed) {
     color: var(--bs-light);
-    background-color: var(--bs-secondary);
+    background-color: var(--bs-dark);
 }
 
 .accordion-button:not(.collapsed)::after {

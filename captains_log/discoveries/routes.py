@@ -43,7 +43,6 @@ def explore():
                 circumstances=circumstances,
                 thing_discovered=thing_discovered,
                 description=None,
-                user_id=current_user.id,
                 planet_id=planet.id,
             )
             db.session.add(discovery)
@@ -93,7 +92,6 @@ def explore():
                     circumstances=circumstances,
                     thing_discovered=thing_discovered,
                     description=None,
-                    user_id=current_user.id,
                     planet_id=current_planet.id,
                 )
                 db.session.add(discovery)
@@ -168,7 +166,7 @@ def edit_discovery(discovery_id):
     # Query db for discovery by id
     discovery = Discovery.query.get_or_404(discovery_id)
     # Make sure discovery is associated with current user
-    if discovery.explorer != current_user:
+    if discovery.planet.explorer != current_user:
         abort(403)
     # Create WTForm to edit discovery
     form = DiscoveryForm(request.form)
@@ -211,6 +209,7 @@ def rename_planet(planet_id):
     if form.validate_on_submit():
         planet.name = form.name.data
         db.session.commit()
+        flash("Planet renamed successfully", "success")
         # Redirect to archive and show planet with updated name
         return redirect(url_for("discoveries.archive", show=planet.id))
     # If page was reached by GET method, populate form with curernt name of planet
@@ -234,6 +233,6 @@ def delete_planet(planet_id):
     # Delete planet from db
     db.session.delete(planet)
     db.session.commit()
-    flash(f"Planet {planet.name} deleted successfully", "success")
+    flash("Planet deleted successfully", "success")
     # Redirect to archive
     return redirect(url_for("discoveries.archive"))
