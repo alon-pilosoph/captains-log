@@ -1,7 +1,6 @@
 from run import app
-from captains_log import db
+from flask_captains_log import db
 
-# Create db in heroku
+# Create db on heroku
 with app.app_context():
-    db.drop_all()
     db.create_all()

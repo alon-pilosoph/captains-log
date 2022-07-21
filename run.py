@@ -1,4 +1,4 @@
-from captains_log import create_app
+from flask_captains_log import create_app
 
 app = create_app()
 

@@ -1,4 +1,4 @@
-from captains_log import mail
+from flask_captains_log import mail
 from flask import render_template, url_for
 from flask_mail import Message
 

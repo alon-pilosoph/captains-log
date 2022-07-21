@@ -1,10 +1,10 @@
-import captains_log.constants as constants
-from captains_log import db
-from captains_log.discoveries.forms import (
+import flask_captains_log.constants as constants
+from flask_captains_log import db
+from flask_captains_log.discoveries.forms import (
     DiscoveryForm,
     PlanetNameForm,
 )
-from captains_log.models import Planet, Discovery
+from flask_captains_log.models import Planet, Discovery
 from flask import abort, Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from random import randint, choice

@@ -1,4 +1,4 @@
-from captains_log.config import Config
+from flask_captains_log.config import Config
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
@@ -24,10 +24,10 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     mail.init_app(app)
     # Import blueprints
-    from captains_log.main.routes import main
-    from captains_log.users.routes import users
-    from captains_log.discoveries.routes import discoveries
-    from captains_log.errors.handlers import errors
+    from flask_captains_log.main.routes import main
+    from flask_captains_log.users.routes import users
+    from flask_captains_log.discoveries.routes import discoveries
+    from flask_captains_log.errors.handlers import errors
 
     # Register blueprints
     app.register_blueprint(main)
