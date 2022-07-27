@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% set active_page = "discoveries.archive" %}
+
+{% block title %}
+    Archive
+{% endblock title %}
+
+{% block main %}
+    <div class="tile tile-wide">
+    <h1 class="display-6 text-center">{{ planet.name }}</h1>
+    {% if planet.id != current_planet_id %}
+        <div class="text-center mb-3">
+            <a class="btn btn-outline-secondary me-1" href="{{ url_for('discoveries.rename_planet', planet_id=planet.id) }}">Rename Planet</a>
+            <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{planet.id}}">Delete Planet</button>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal{{planet.id}}" tabindex="-1" aria-labelledby="deleteModal{{planet.id}}Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModal{{planet.id}}Label">Delete Archived Planet?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form method="POST" action="{{ url_for('discoveries.delete_planet', planet_id=planet.id) }}">
+                            <input type="submit" class="btn btn-danger" value="Delete">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="p-5 bg-dark text-light rounded-3">
+        {% for discovery in planet.discoveries %}
+            {% if discovery.description != None %}
+                <div {% if discovery.number != 1 %}class="pt-4"{% endif %}>
+                    <div class="archive-discovery-heading">
+                        <p class="my-0 me-2 fs-4">Discovery {{ discovery.number }}</p>
+                        <small><a class="link-success"
+                                href="{{ url_for('discoveries.edit_discovery', planet_id=planet.id, discovery_number=discovery.number) }}">Edit</a></small>
+                    </div>
+                    <p class="text-light m-0">{{discovery.description}}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="text-center mt-2">
+        <a href="{{ url_for('discoveries.archive') }}" class="link-success">Back to Archive</a>
+    </div>
+{% endblock main %}

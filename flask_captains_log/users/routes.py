@@ -23,7 +23,7 @@ def register():
         return redirect(url_for("main.index"))
 
     # Create WTForm to register user
-    form = RegistrationForm(request.form)
+    form = RegistrationForm()
     # If form validated, hash password and create user in db
     if form.validate_on_submit():
         email = form.email.data
@@ -34,7 +34,7 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        flash("Your account has been created. You can now log in.", "success")
+        flash("Your account has been created.", "success")
         # Redirect to login page
         return redirect(url_for("users.login"))
 
@@ -51,7 +51,7 @@ def login():
         return redirect(url_for("main.index"))
 
     # Create WTForm to login user
-    form = LoginForm(request.form)
+    form = LoginForm()
     # If form validated, try to login
     if form.validate_on_submit():
         # Get form data

@@ -1,7 +1,9 @@
+import flask_captains_log.constants as constants
 from flask_captains_log import db, login_manager
 from flask import current_app
 from flask_login import UserMixin
 from itsdangerous import URLSafeTimedSerializer
+from random import choice
 
 
 @login_manager.user_loader
@@ -97,6 +99,20 @@ class Planet(db.Model):
         cascade="all, delete",
         lazy=True,
     )
+
+    def generate_prompt(self):
+        circumstances = choice(constants.CIRCUMSTANCES)
+        while True:
+            thing_discovered = (
+                f"{choice(constants.CATEGORIES)} {choice(constants.LOCATIONS)}"
+            )
+            if not Discovery.query.filter_by(
+                planet_id=self.id,
+                thing_discovered=thing_discovered,
+            ).first():
+                break
+
+        return circumstances, thing_discovered
 
     def __repr__(self):
         return f"<Planet id={self.id}, name={self.name}, things_to_discover={self.things_to_discover}>"
