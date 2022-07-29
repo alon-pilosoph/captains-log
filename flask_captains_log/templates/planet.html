@@ -8,7 +8,11 @@
 {% block main %}
     <div class="tile tile-wide">
     <h1 class="display-6 text-center">{{ planet.name }}</h1>
-    {% if planet.id != current_planet_id %}
+    {% if planet.id == current_planet_id %}
+        <div class="text-center mb-3">
+            <a class="btn btn-outline-secondary" href="{{ url_for('discoveries.explore') }}">Continue Exploring</a>
+        </div>
+    {% else %}
         <div class="text-center mb-3">
             <a class="btn btn-outline-secondary me-1" href="{{ url_for('discoveries.rename_planet', planet_id=planet.id) }}">Rename Planet</a>
             <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{planet.id}}">Delete Planet</button>
