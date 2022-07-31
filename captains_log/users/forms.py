@@ -1,4 +1,4 @@
-from flask_captains_log.models import User
+from captains_log.models import User
 from flask_wtf import FlaskForm
 from wtforms import (
     BooleanField,

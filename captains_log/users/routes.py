@@ -1,12 +1,12 @@
-from flask_captains_log import db, bcrypt
-from flask_captains_log.models import User
-from flask_captains_log.users.forms import (
+from captains_log import db, bcrypt
+from captains_log.models import User
+from captains_log.users.forms import (
     LoginForm,
     RegistrationForm,
     ResetPasswordForm,
     RequestResetForm,
 )
-from flask_captains_log.users.helpers import send_password_reset_email
+from captains_log.users.helpers import send_password_reset_email
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 

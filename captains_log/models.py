@@ -1,5 +1,5 @@
-import flask_captains_log.constants as constants
-from flask_captains_log import db, login_manager
+import captains_log.constants as constants
+from captains_log import db, login_manager
 from flask import current_app
 from flask_login import UserMixin
 from itsdangerous import URLSafeTimedSerializer
