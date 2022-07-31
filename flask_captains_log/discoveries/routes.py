@@ -157,7 +157,7 @@ def name_planet(planet_id):
         # Populate form with default name from db
         form.name.data = current_planet.name
 
-    return render_template("name.html", from_page="discoveries.explore", form=form)
+    return render_template("name.html", section="discoveries.explore", form=form)
 
 
 @discoveries.route("/archive")
@@ -217,7 +217,7 @@ def rename_planet(planet_id):
     elif request.method == "GET":
         form.name.data = planet.name
     # Render page with planet name form
-    return render_template("name.html", from_page="discoveries.archive", form=form)
+    return render_template("name.html", section="discoveries.archive", form=form)
 
 
 @discoveries.route("/archive/<int:planet_id>/delete", methods=["POST"])
