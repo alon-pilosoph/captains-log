@@ -1,4 +1,4 @@
-from captains_log import db, bcrypt
+from captains_log import bcrypt, db
 from captains_log.models import User
 from captains_log.users.forms import (
     LoginForm,
@@ -6,7 +6,6 @@ from captains_log.users.forms import (
     ResetPasswordForm,
     RequestResetForm,
 )
-from captains_log.users.helpers import send_password_reset_email
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_user, logout_user
 
@@ -26,17 +25,18 @@ def register():
     form = RegistrationForm()
     # If form validated, hash password and create user in db
     if form.validate_on_submit():
-        email = form.email.data
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
             "utf-8"
         )
-        user = User(email=email, password=hashed_password)
+        user = User(email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
 
         flash("Your account has been created.", "success")
-        # Redirect to login page
-        return redirect(url_for("users.login"))
+        # Login registered user
+        login_user(user)
+        # Redirect to home page
+        return redirect(url_for("main.index"))
 
     # If page was reached by GET method, render page with registration form
     return render_template("register.html", form=form)
@@ -54,14 +54,11 @@ def login():
     form = LoginForm()
     # If form validated, try to login
     if form.validate_on_submit():
-        # Get form data
-        email = form.email.data
-        password = form.password.data
-        remember = form.remember.data
-        user = User.query.filter_by(email=email).first()
-        # If credentials are correct, log user in
-        if user and bcrypt.check_password_hash(user.password, password):
-            login_user(user, remember=remember)
+        # Verify user's credentials
+        user = User.verify_credentials(form.email.data, form.password.data)
+        # If credentials are correct, login user
+        if user:
+            login_user(user, remember=form.remember.data)
             flash("You logged in successfully.", "success")
             # Get next page to redirect after login
             next_page = request.args.get("next")
@@ -97,9 +94,10 @@ def reset_request():
     # If form validated, send reset link to user's email
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        send_password_reset_email(user)
+        user.send_password_reset_email()
         flash(
-            "An email has been sent with instructions to reset your password.", "info"
+            "An email has been sent with instructions to reset your password.",
+            "success",
         )
         return redirect(url_for("users.login"))
 

@@ -1,7 +1,8 @@
 import captains_log.constants as constants
-from captains_log import db, login_manager
-from flask import current_app
+from captains_log import bcrypt, db, login_manager, mail
+from flask import current_app, render_template, url_for
 from flask_login import UserMixin
+from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer
 from random import choice
 
@@ -18,7 +19,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    # Columns that represent state of user
+    # Columns that represent the current state of the user
     current_planet_id = db.Column(
         db.Integer,
         db.ForeignKey("planet.id", use_alter=True, name="fk_current_planet_id"),
@@ -47,17 +48,44 @@ class User(db.Model, UserMixin):
         lazy=True,
     )
 
-    def get_reset_token(self):
-        """Method that returns a timed token associated with user to send in reset email"""
+    @staticmethod
+    def verify_credentials(email, password):
+        """Static method that verifies user credentials"""
+
+        # Query the database for user by given email
+        user = User.query.filter_by(email=email).first()
+        # Verify user exists in db and that the given password matches (short-cirtcuit condition)
+        if user and bcrypt.check_password_hash(user.password, password):
+            return user
+        return False
+
+    def send_password_reset_email(self):
+        """Method that sends a reset email to the user.
+        The email contains a URL with a timed token associated with the user."""
+
         password_reset_serializer = URLSafeTimedSerializer(
             current_app.config["SECRET_KEY"]
         )
-        return password_reset_serializer.dumps(self.id, salt="password-reset-salt")
+        token = password_reset_serializer.dumps(self.id, salt="password-reset-salt")
+        # TODO add token to user object
+        msg = Message(
+            "Password Reset Request",
+            sender="alon.pilosoph@gmail.com",
+            recipients=[self.email],
+        )
+        msg.html = render_template(
+            "reset_email.html",
+            password_reset_url=url_for(
+                "users.reset_password", token=token, _external=True
+            ),
+        )
+        mail.send(msg)
 
     @staticmethod
     def verify_reset_token(token):
-        """Method to verify timed token to reset password.
+        """Static method to verify timed token to reset password.
         If verified, the method returns the relevant user object."""
+        # TODO Figure out how to reset token here
         password_reset_serializer = URLSafeTimedSerializer(
             current_app.config["SECRET_KEY"]
         )
