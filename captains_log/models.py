@@ -30,6 +30,7 @@ class User(db.Model, UserMixin):
         db.ForeignKey("discovery.id", use_alter=True, name="fk_current_discovery_id"),
         default=None,
     )
+    reset_token = db.Column(db.String(100), default=None)
     # Relationships
     current_planet = db.relationship(
         "Planet",
@@ -67,12 +68,10 @@ class User(db.Model, UserMixin):
             current_app.config["SECRET_KEY"]
         )
         token = password_reset_serializer.dumps(self.id, salt="password-reset-salt")
-        # TODO add token to user object
-        msg = Message(
-            "Password Reset Request",
-            sender="alon.pilosoph@gmail.com",
-            recipients=[self.email],
-        )
+        # Store most recent reset token in db
+        self.reset_token = token
+        db.session.commit()
+        msg = Message("Password Reset Request", recipients=[self.email])
         msg.html = render_template(
             "reset_email.html",
             password_reset_url=url_for(
@@ -85,7 +84,7 @@ class User(db.Model, UserMixin):
     def verify_reset_token(token):
         """Static method to verify timed token to reset password.
         If verified, the method returns the relevant user object."""
-        # TODO Figure out how to reset token here
+
         password_reset_serializer = URLSafeTimedSerializer(
             current_app.config["SECRET_KEY"]
         )
@@ -98,7 +97,13 @@ class User(db.Model, UserMixin):
         except:
             # If token not validated, return None
             return None
-        return User.query.get(user_id)
+        # Query for user by id loaded from token
+        user = User.query.get(user_id)
+        # If user's current reset token is the token received, return user
+        if user.reset_token == token:
+            return user
+        # Otherwise, return None
+        return None
 
     def __repr__(self):
         return f"<User id={self.id}, email={self.email}>"

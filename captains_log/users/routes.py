@@ -122,11 +122,12 @@ def reset_password(token):
         return redirect(url_for("users.login"))
     # Otherwise, create WTForm to reset password
     form = ResetPasswordForm()
-    # If form validated, hash password and update in db
+    # If form validated, hash password, reset current token and update in db
     if form.validate_on_submit():
         user.password = bcrypt.generate_password_hash(form.password.data).decode(
             "utf-8"
         )
+        user.reset_token = None
         db.session.commit()
         flash("Your password has been updated.", "success")
         return redirect(url_for("users.login"))
