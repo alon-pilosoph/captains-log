@@ -11,7 +11,7 @@
         <h1 class="display-6 text-center">Archive</h1>
         {% if planets.count() %}
         <div class="list-group">
-            {% for planet in planets|reverse %}
+            {% for planet in planets|sort(attribute='id', reverse = True) %}
                 <a href="{{ url_for('discoveries.planet', planet_id=planet.id) }}" class="list-group-item list-group-item-action fs-5">{{ planet.name }}</a>
             {% endfor %}
         </div>
