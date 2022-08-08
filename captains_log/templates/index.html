@@ -7,13 +7,14 @@
 
 {% block main %}
     <div class="tile tile-wide">
-        <div class="p-5 bg-dark text-light rounded-3">
-            <h1 class="display-6 mb-3">Welcome, Space Explorer</h1>
-            <p class="mb-1">Use this web app to log your <a href="https://noroadhome.itch.io/alone-among-the-stars"
+        <div class="p-4 bg-dark text-light text-center rounded-3">
+            <img class="w-100 rounded mb-3" src="https://res.cloudinary.com/dbx3a0ync/image/upload/v1659989010/Captain%27s%20Log/kirk_cntwcp.png" alt="">
+            <h1 class="display-6 mb-2">Welcome, Space Explorer</h1>
+            <p class="mb-0">Use this app to log your <a href="https://noroadhome.itch.io/alone-among-the-stars"
                     class="link-success">Alone Among
                     the Stars</a> adventures.
             </p>
-            <p>
+            <p class="mb-0">
                 <a href="{{ url_for('users.register') }}" class="link-success">Register</a> or <a
                     href="{{ url_for('users.login') }}" class="link-success">log in</a> to get started.
             </p>
