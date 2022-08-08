@@ -36,7 +36,7 @@
         </div>
     {% endif %}
     <div class="p-5 bg-dark text-light rounded-3">
-        {% for discovery in planet.discoveries %}
+        {% for discovery in planet.discoveries|sort(attribute='number') %}
             {% if discovery.description != None %}
                 <div {% if discovery.number != 1 %}class="pt-4"{% endif %}>
                     <div class="archive-discovery-heading">
