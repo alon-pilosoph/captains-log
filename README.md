@@ -1,6 +1,6 @@
 # Captain's Log
 > An adaptation of a solo role-playing game built in Flask.
-> Live demo [here](https://flask-captains-log.herokuapp.com/).
+> Live demo [here](https://captains-log-rpg.herokuapp.com/).
 
 ## Table of Contents
 * [General Info](#general-information)
