@@ -82,5 +82,6 @@ Once registered and logged in, go to 'Explore' to visit a planet. You can also v
 
 
 ## Acknowledgements
+- This project was submitted as a final project in [CS50x 2022](https://cs50.harvard.edu/x/2022/) on edX.
 - Parts of this project were implemented with the help of Corey Schafer's [Flask tutorials](https://www.youtube.com/playlist?list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH).
 - [_Alone Among the Stars_](https://noroadhome.itch.io/alone-among-the-stars) was created by [Takuma Okada](https://noroadhome.itch.io/).
