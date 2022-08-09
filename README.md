@@ -42,10 +42,10 @@ This web app is intended to function as your captain's log during your travels. 
 
 ## Screenshots
 <p align="center">
-  <img src="screenshots/captains_log_discovery.png" alt="Discovery Page"/>
+  <img src="screenshots/captains_log_index.png" alt="Index Page"/>
 </p>
 <p align="center">
-  <img src="screenshots/captains_log_archive.png" alt="Archive Page"/>
+  <img src="screenshots/captains_log_discovery.png" alt="Discovery Page"/>
 </p>
 <p align="center">
   <img src="screenshots/captains_log_planet.png" alt="Archived Planet Page"/>
