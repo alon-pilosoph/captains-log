@@ -27,7 +27,7 @@ This web app is intended to function as your captain's log during your travels. 
 - Bootstrap
 - Flask
 - Flask Extensions: Flask-WTF (WTForms), Flask-Login, Flask-Mail
-- PostgresSQL, SQLAlchemy
+- PostgreSQL, SQLAlchemy
 - Deployed on Heroku
 
 
