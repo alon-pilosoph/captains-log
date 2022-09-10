@@ -10,6 +10,7 @@ from random import choice
 @login_manager.user_loader
 def load_user(user_id):
     """Method for Flask login manager"""
+
     return User.query.get(int(user_id))
 
 

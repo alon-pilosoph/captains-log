@@ -40,6 +40,7 @@ class RegistrationForm(FlaskForm):
 
     def validate_email(self, email):
         """Custom validator to make sure email address is not already in db"""
+
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError("This email address is already registered.")
@@ -70,6 +71,7 @@ class RequestResetForm(FlaskForm):
 
     def validate_email(self, email):
         """Custom validator to make sure email address is in db"""
+
         user = User.query.filter_by(email=email.data).first()
         if user is None:
             raise ValidationError(

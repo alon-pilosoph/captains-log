@@ -19,6 +19,7 @@ def explore():
 
     current_planet = current_user.current_planet
     current_discovery = current_user.current_discovery
+
     # Conditions to redirect the user to current stage of exploration
     # If there is already a planet being explored
     if current_planet is not None:
@@ -64,6 +65,7 @@ def explore():
         return redirect(
             url_for("discoveries.discovery", planet_id=planet.id, discovery_number=1)
         )
+
     # If page was reached by GET method, render page to choose planet to explore
     return render_template("explore.html", things_to_discover=randint(1, 6))
 
@@ -77,6 +79,7 @@ def discovery(planet_id, discovery_number):
 
     current_planet = current_user.current_planet
     current_discovery = current_user.current_discovery
+
     # Validate route
     if (
         current_planet is None
@@ -85,6 +88,7 @@ def discovery(planet_id, discovery_number):
         or current_discovery.description is not None
     ):
         abort(404)
+
     # Create WTForm to log the discovery
     form = DiscoveryForm()
     # If form validated, update discovery in db
@@ -96,7 +100,7 @@ def discovery(planet_id, discovery_number):
             return redirect(
                 url_for("discoveries.name_planet", planet_id=current_planet.id)
             )
-        # Generate random priompt
+        # Generate random prompt
         circumstances, thing_discovered = current_planet.generate_prompt()
         # After updating current discovery, create the next one
         discovery = Discovery(
@@ -119,6 +123,7 @@ def discovery(planet_id, discovery_number):
                 discovery_number=discovery_number + 1,
             )
         )
+
     # If page was reached by GET method, render page to log current discovery
     return render_template(
         "discovery.html",
@@ -136,9 +141,11 @@ def name_planet(planet_id):
 
     current_planet = current_user.current_planet
     current_discovery = current_user.current_discovery
+
     # Validate route
     if planet_id != current_planet.id or current_discovery.description is None:
         abort(404)
+
     # Create WTForm to name the planet
     form = PlanetNameForm()
     # If form validated, update name in db
@@ -175,6 +182,7 @@ def archive():
             Discovery.description != None,
         )
     )
+
     # Pass planets to template
     return render_template("archive.html", planets=planets)
 
@@ -188,6 +196,7 @@ def planet(planet_id):
     planet = Planet.query.get_or_404(planet_id)
     if planet.explorer != current_user:
         abort(403)
+
     return render_template(
         "planet.html", planet=planet, current_planet_id=current_user.current_planet_id
     )
@@ -203,6 +212,7 @@ def rename_planet(planet_id):
     # Make sure planet is associated with current user
     if planet.explorer != current_user:
         abort(403)
+
     # Create WTForm to edit planet name
     form = PlanetNameForm()
     form.submit.label.text = "Rename"
@@ -216,6 +226,7 @@ def rename_planet(planet_id):
     # If page was reached by GET method, populate form with curernt name of planet
     elif request.method == "GET":
         form.name.data = planet.name
+
     # Render page with planet name form
     return render_template("name.html", section="discoveries.archive", form=form)
 
@@ -231,6 +242,7 @@ def delete_planet(planet_id):
     # Make sure planet is associated with current user
     if planet.explorer != current_user:
         abort(403)
+
     # Delete planet from db
     db.session.delete(planet)
     db.session.commit()
@@ -252,9 +264,11 @@ def edit_discovery(planet_id, discovery_number):
     ).first()
     if discovery is None:
         abort(404)
+
     # Make sure discovery is associated with current user
     if discovery.planet.explorer != current_user:
         abort(403)
+
     # Create WTForm to edit discovery
     form = DiscoveryForm()
     form.submit.label.text = "Update"
@@ -268,6 +282,7 @@ def edit_discovery(planet_id, discovery_number):
     # If page was reached by GET method, populate form with current description of discovery
     elif request.method == "GET":
         form.description.data = discovery.description
+
     # Render page with discovery form
     return render_template(
         "discovery.html",
