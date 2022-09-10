@@ -1,5 +1,5 @@
 # Captain's Log
-> An adaptation of a solo role-playing game built in Flask.
+> An adaptation of a solo role-playing game, built in Flask.  
 > Live demo [here](https://captains-log-rpg.herokuapp.com/).
 
 ## Table of Contents
@@ -27,7 +27,7 @@ This web app is intended to function as your captain's log during your travels. 
 - Bootstrap
 - Flask
 - Flask Extensions: Flask-WTF (WTForms), Flask-Login, Flask-Mail
-- PostgresSQL, SQLAlchemy
+- PostgreSQL, SQLAlchemy
 - Deployed on Heroku
 
 
